@@ -101,4 +101,47 @@ public class ContaDAO {
             return linhasAfetadas > 0;
         }
     }
+    
+    public boolean transferir(int numeroOrigem, int numeroDestino, double valor) throws SQLException {
+        String sqlSaque = "UPDATE contas SET saldo = saldo - ? WHERE numero = ? AND saldo >= ?";
+        String sqlDeposito = "UPDATE contas SET saldo = saldo + ? WHERE numero = ?";
+
+        try (Connection conn = new Conexao().getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement stmtSaque = conn.prepareStatement(sqlSaque);
+                 PreparedStatement stmtDeposito = conn.prepareStatement(sqlDeposito)) {
+
+                stmtSaque.setDouble(1, valor);
+                stmtSaque.setInt(2, numeroOrigem);
+                stmtSaque.setDouble(3, valor); //
+                
+                int linhasSaque = stmtSaque.executeUpdate();
+
+                if (linhasSaque == 0) {
+                    conn.rollback();
+                    return false;
+                }
+                
+                stmtDeposito.setDouble(1, valor);
+                stmtDeposito.setInt(2, numeroDestino);
+                
+                int linhasDeposito = stmtDeposito.executeUpdate();
+
+                if (linhasDeposito == 0) {
+                    conn.rollback();
+                    return false;
+                }
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e; 
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        }
+    }
 }

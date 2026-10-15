@@ -125,4 +125,32 @@ public class ContaCorrenteService {
     public List<ContaCorrente> getContas() {
         return contas;
     }
+    
+    public void transferir(int numeroOrigem, int numeroDestino, double valor) 
+            throws SaldoInsuficienteException, ValorNegativoException, SQLException {
+        
+        ContaCorrente contaOrigem = buscarConta(numeroOrigem);
+        ContaCorrente contaDestino = buscarConta(numeroDestino);
+
+        if (contaOrigem == null || contaDestino == null) {
+            throw new Error("Conta não encontrada.");
+        }
+
+        if (valor <= 0) {
+            throw new ValorNegativoException();
+        }
+        
+        if (contaOrigem.getSaldo() < valor) {
+            throw new SaldoInsuficienteException();
+        }
+
+        boolean sucesso = dao.transferir(numeroOrigem, numeroDestino, valor);
+
+        if (sucesso) {
+            contaOrigem.sacar(valor);  
+            contaDestino.depositar(valor);
+        } else {
+            throw new Error("Falha na transferência.");
+        }
+    }
 }

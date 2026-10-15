@@ -42,6 +42,7 @@ public class TabelaContas extends javax.swing.JFrame {
         btnSacar = new javax.swing.JButton();
         btnAdicionar = new javax.swing.JButton();
         btnDeletar = new javax.swing.JButton();
+        btnTransferir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,13 +86,16 @@ public class TabelaContas extends javax.swing.JFrame {
         btnDeletar.setText("Deletar");
         btnDeletar.addActionListener(this::btnDeletarActionPerformed);
 
+        btnTransferir.setText("Transferir");
+        btnTransferir.addActionListener(this::btnTransferirActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnDeletar)
@@ -99,6 +103,8 @@ public class TabelaContas extends javax.swing.JFrame {
                 .addComponent(btnSacar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDepositar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTransferir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdicionar)
                 .addContainerGap())
@@ -112,7 +118,8 @@ public class TabelaContas extends javax.swing.JFrame {
                     .addComponent(btnDepositar)
                     .addComponent(btnSacar)
                     .addComponent(btnAdicionar)
-                    .addComponent(btnDeletar))
+                    .addComponent(btnDeletar)
+                    .addComponent(btnTransferir))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -265,6 +272,17 @@ public class TabelaContas extends javax.swing.JFrame {
         tela.setVisible(true);
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
+    private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
+
+        Integer contaSugerida = null;
+        if (contaSelecionada != null) {
+            contaSugerida = contaSelecionada.getNumero();
+        }
+
+        Transferencia tela = new Transferencia(this, true, contasService, this, contaSugerida);
+        tela.setVisible(true);
+    }//GEN-LAST:event_btnTransferirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -293,6 +311,7 @@ public class TabelaContas extends javax.swing.JFrame {
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnDepositar;
     private javax.swing.JButton btnSacar;
+    private javax.swing.JButton btnTransferir;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tabelaContas;
