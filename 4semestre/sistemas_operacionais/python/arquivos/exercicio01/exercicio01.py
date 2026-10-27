@@ -15,16 +15,17 @@ def gerar_cpf():
     result = ''.join(map(str, cpf))
     return result
 
-cpfs = []
+if __name__ == "__main__":
+    cpfs = []
 
-for i in range(10):
-    cpfs.append(gerar_cpf())
+    for i in range(10):
+        cpfs.append(gerar_cpf())
 
 
-for cpf in cpfs:
-    caminho_pasta_compras = Path("cpfs/"+ cpf + "/compras")
-    caminho_pasta_vendas = Path("cpfs/"+ cpf + "/vendas")
+    for cpf in cpfs:
+        caminho_pasta_compras = Path("cpfs/"+ cpf + "/compras")
+        caminho_pasta_vendas = Path("cpfs/"+ cpf + "/vendas")
 
-    caminho_pasta_compras.mkdir(exist_ok=True, parents=True)
-    caminho_pasta_vendas.mkdir(exist_ok=True, parents=True)
+        caminho_pasta_compras.mkdir(exist_ok=True, parents=True)
+        caminho_pasta_vendas.mkdir(exist_ok=True, parents=True)
 
